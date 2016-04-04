@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="Sqlite (Xerial) - development.sqlite3" uuid="4ea76669-2c48-4e20-acda-ff86863cf143">
-      <secret-storage>master_key</secret-storage>
-      <auth-required>false</auth-required>
+    <data-source name="Rails ShoppingList: production" uuid="660f0eab-8238-448d-9ec9-798bb1ffd88a">
+      <user-name>snow</user-name>
+      <user-password>dfdadfcbdfd9dfd9dfdddfc5dfd8dfce</user-password>
+    </data-source>
+    <data-source name="Rails ShoppingList: development" uuid="98d36fde-d200-45d7-881d-2e8e65624051">
+      <user-name>snow</user-name>
+      <user-password>dfdadfcbdfd9dfd9dfdddfc5dfd8dfce</user-password>
+      <schema-pattern>development.pg_catalog development.public</schema-pattern>
+      <default-schemas>development.public</default-schemas>
+    </data-source>
+    <data-source name="Rails ShoppingList: test" uuid="6e6083cb-b8b4-47c7-8da8-f88287719b7c">
+      <user-name>snow</user-name>
+      <user-password>dfdadfcbdfd9dfd9dfdddfc5dfd8dfce</user-password>
     </data-source>
   </component>
 </project>
