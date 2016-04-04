@@ -1,0 +1,105 @@
+<div id='tabs'>
+  <ul>
+    <% @count = 1%>
+    <% @lists.each do |list| %>
+        <li>
+          <a href="<%= '#' + 'tabs-' + @count.to_s %>"><%= list.name.capitalize %></a>
+        </li>
+        <% @count += 1%>
+    <% end %>
+    <li>
+      <a href="#tabs-new-list">Add List +</a>
+    </li>
+  </ul>
+
+
+  <% @count = 1%>
+  <% @lists.each do |list| %>
+
+      <div id='tabs-<%= @count %>' class="tab">
+
+        <div class="new-item">
+          <%= simple_form_for(@item, :url => list_items_url(list)) do |f| %>
+
+              <%= f.input :done , :as => :hidden,  :input_html => {:value => false }%>
+              <%= f.input :list_id , :as => :hidden,   :input_html => {:value => list.id }%>
+
+              <div class="split-fields">
+                <div class="field">
+                  <%= f.input :name , :label => false, :placeholder => "Enter a new item" %>
+                </div>
+                <div class="button">
+                  <%= f.button :submit,  "Add Item" %>
+                </div>
+              </div>
+          <% end %>
+        </div>
+
+        <% unless list.items.empty? %>
+            <ul  class="items pending-items">
+              <% list.items.each do |item| %>
+
+                  <% unless item.done %>
+                      <%= simple_form_for(item, :url => list_item_url(list, item)) do |f| %>
+
+                          <li>
+                            <%= raw auto_link( h(item.name), :html => { :target => '_blank' }) %>
+                            <%= link_to 'Delete', list_item_url(list, item), :confirm => 'Are you sure?', :method => :delete %>
+                          </li>
+
+                      <% end %>
+                  <% end %>
+              <% end %>
+            </ul>
+        <% end %>
+
+        <% unless list.done_items.empty? %>
+            <ul class="items finished-items">
+              <% list.done_items.each do |item| %>
+                  <li class="finished">
+                    <%= raw auto_link( h(item.name), :html => { :target => '_blank' }) %>
+                    <p class="delete-item">
+                      <%= link_to 'Delete', list_item_url(list, item), :confirm => 'Are you sure?', :method => :delete %>
+                    </p>
+                  </li>
+              <% end %>
+            </ul>
+        <% end %>
+
+        <p class="delete-list">
+          <%= link_to 'Delete this list', list, :confirm => 'Are you sure?', :method => :delete %>
+        </p>
+      </div>
+      <% @count += 1%>
+
+  <%end%>
+
+
+  <div id="tabs-new-list">
+    <h2>Add a New Item List</h2>
+    <%= render :partial => '/lists/form' %>
+  </div>
+
+
+</div>
+
+
+<% if listid = params[:list_id] %>
+    <% prevlist = List.find listid %>
+    <% tabindex = @lists.index(prevlist) %>
+<% end %>
+
+
+<script>
+  $('.box').click(function(event) {
+    $(this).parent().next().click();
+  });
+
+  $(function() {
+    var opts = {};
+    <% if params[:list_id] %>
+    opts.selected = <%= tabindex %>
+        <% end %>
+        $( "#tabs" ).tabs(opts);
+  });
+</script>
